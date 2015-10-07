@@ -10,4 +10,5 @@ Keep in mind that the input file size is assumed to be no smaller than 300 x 300
 The code is developed under Visual Studio 2013, using OpenCV 2.4.10, so make your project configuration accordingly. 
 
 Best, 
+
 Ekberjan
