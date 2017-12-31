@@ -1,9 +1,9 @@
-//Header file for normalization operation
+// Header file for normalization operation
 
 #ifndef _NORMALIZER_H
 #define _NORMALIZER_H
 
-#include "commonFiles.h"
+#include "commonfiles.h"
 
 class Normalizer
 {

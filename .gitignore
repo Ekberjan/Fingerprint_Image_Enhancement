@@ -1,0 +1,7 @@
+bin
+CMakeFiles/*
+*.o
+cmake_install.cmake
+CMakeCache.txt
+MakeFile
+fingerPrint

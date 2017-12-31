@@ -1,17 +1,22 @@
-//Function for image normalization using the method
-//described in Anil Jain's paper
-//Author: Ekberjan Derman
-//email: ekberjanderman@gmail.com
-//08.2015
+// Function for image normalization using the method.
+// The method is based on Anil Jain's algorithm.
+//
+// Author: Ekberjan Derman
+// Contributor : Baptiste Amato, Julien Jerphanion
+// Emails:
+//    ekberjanderman@gmail.com
+//    baptiste.amato@gmail.com
+//    julien.jerphanion@protonmail.com
+//
+// Last update : 12.2017
 
-#include "stdafx.h"
 #include "normalizer.h"
 
 cv::Mat Normalizer::run(cv::Mat& im, double reqmean, double reqvar)
 {
-	im.convertTo(im, CV_32FC1);	
+	im.convertTo(im, CV_32FC1);
 	cv::minMaxLoc(im, &min, &max, &min_loc, &max_loc);
-	
+
 	mean = cv::mean(im);
 	normalizedImage = im - mean[0];
 
@@ -24,7 +29,7 @@ cv::Mat Normalizer::run(cv::Mat& im, double reqmean, double reqvar)
 	return normalizedImage;
 }
 
-//Calculate standard deviation of the image
+// Calculate standard deviation of the image
 float Normalizer::deviation(cv::Mat& im, float ave)
 {
 	float sdev = 0.0;
