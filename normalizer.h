@@ -5,8 +5,7 @@
 
 #include "commonfiles.h"
 
-class Normalizer
-{
+class Normalizer {
 public:
 	cv::Mat run(cv::Mat& im, double reqmean, double reqvar);
 

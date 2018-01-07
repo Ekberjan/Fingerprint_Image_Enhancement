@@ -3,8 +3,7 @@
 
 #include "commonfiles.h"
 
-class RidgeOrient
-{
+class RidgeOrient {
 public:
 	RidgeOrient();
 	cv::Mat run(cv::Mat im, double gradientsigma, double blocksigma, double orientsmoothsigma);

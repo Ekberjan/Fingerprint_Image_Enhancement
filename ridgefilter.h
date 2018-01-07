@@ -5,8 +5,7 @@
 
 #include "commonfiles.h"
 
-class RidgeFilter
-{
+class RidgeFilter {
 public:
 	cv::Mat run(cv::Mat inputImage, cv::Mat orientationImage, cv::Mat frequency, double kx, double ky);
 

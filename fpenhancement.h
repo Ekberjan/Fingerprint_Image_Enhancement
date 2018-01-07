@@ -9,8 +9,7 @@
 #include "ridgeorient.h"
 #include "ridgefilter.h"
 
-class FPEnhancement
-{
+class FPEnhancement {
 public:
 	FPEnhancement();
 	cv::Mat run(cv::Mat& inputImage);

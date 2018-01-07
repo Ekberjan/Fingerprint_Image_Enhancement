@@ -3,11 +3,10 @@
 
 #include "commonfiles.h"
 
-class CheckSize
-{
+class CheckSize {
 public:
 	cv::Mat check(cv::Mat& inputImage);
-	
+
 private:
 	int expectedRow;
 	int expectedCol;
