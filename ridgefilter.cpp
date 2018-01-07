@@ -126,25 +126,24 @@ cv::Mat RidgeFilter::run(cv::Mat inputImage, cv::Mat orientationImage, cv::Mat f
 
 	}
 
+	// Add a border.
+	cv::Mat aux = enhancedImage.rowRange(0, rows).colRange(0, szek + 1);
+	aux.setTo(255);
 
-	// Only adds a border.
-	// cv::Mat aux = enhancedImage.rowRange(0, rows).colRange(0, szek + 1);
-	// aux.setTo(255);
-	//
-	// aux = enhancedImage.rowRange(0, szek + 1).colRange(0, cols);
-	// aux.setTo(255);
-	//
-	// aux = enhancedImage.rowRange(rows - szek, rows).colRange(0, cols);
-	// aux.setTo(255);
-	//
-	// aux = enhancedImage.rowRange(0, rows).colRange(cols - 2 * (szek + 1) - 1, cols);
-	// aux.setTo(255);
+	aux = enhancedImage.rowRange(0, szek + 1).colRange(0, cols);
+	aux.setTo(255);
+
+	aux = enhancedImage.rowRange(rows - szek, rows).colRange(0, cols);
+	aux.setTo(255);
+
+	aux = enhancedImage.rowRange(0, rows).colRange(cols - 2 * (szek + 1) - 1, cols);
+	aux.setTo(255);
 
 
 	return enhancedImage;
 }
 
-//This is equivalent to Matlab's 'meshgrid' function
+// This is equivalent to Matlab's 'meshgrid' function
 void RidgeFilter::meshgrid(int sze) {
 	std::vector<int> t;
 

@@ -5,7 +5,7 @@
 // Contributor : Baptiste Amato, Julien Jerphanion
 // Emails:
 //    ekberjanderman@gmail.com
-//    baptiste.amato@gmail.com
+//    baptiste.amato@psycle.io
 //    julien.jerphanion@protonmail.com
 //
 // Last update : 12.2017

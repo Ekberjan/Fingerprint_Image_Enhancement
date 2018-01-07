@@ -4,7 +4,7 @@
 // Contributor : Baptiste Amato, Julien Jerphanion
 // Emails:
 //    ekberjanderman@gmail.com
-//    baptiste.amato@gmail.com
+//    baptiste.amato@psycle.io
 //    julien.jerphanion@protonmail.com
 //
 // Last update : 12.2017
@@ -16,7 +16,7 @@ RidgeOrient::RidgeOrient() {
 	scale = 1;
 	delta = 0;
 	ddepth = CV_32FC1;
-	pi = M_PI;//3.14159265;
+	pi = M_PI; // 3.14159265;
 }
 
 cv::Mat
@@ -27,12 +27,12 @@ RidgeOrient::run(cv::Mat im, double gradientsigma, double blocksigma, double ori
 		sze++;
 	}
 
-	//Define Gaussian kernel
+	// Define Gaussian kernel
 	cv::Mat gaussKernelX = cv::getGaussianKernel(sze, gradientsigma, CV_32FC1);
 	cv::Mat gaussKernelY = cv::getGaussianKernel(sze, gradientsigma, CV_32FC1);
 	cv::Mat gaussKernel = gaussKernelX * gaussKernelY.t();
 
-	//Peform Gaussian filtering
+	// Peform Gaussian filtering
 	cv::Mat fx, fy;
 	cv::Mat kernelx = (cv::Mat_<float>(1, 3) << -0.5, 0, 0.5);
 	cv::Mat kernely = (cv::Mat_<float>(3, 1) << -0.5, 0, 0.5);
@@ -45,16 +45,16 @@ RidgeOrient::run(cv::Mat im, double gradientsigma, double blocksigma, double ori
 	grad_y.convertTo(grad_y, CV_32FC1);
 
 	cv::filter2D(im, grad_x, -1, fx, cv::Point(-1, -1), 0,
-				 cv::BORDER_DEFAULT); //Gradient of the image in x
+				 cv::BORDER_DEFAULT); // Gradient of the image in x
 	cv::filter2D(im, grad_y, -1, fy, cv::Point(-1, -1), 0,
-				 cv::BORDER_DEFAULT); //Gradient of the image in y
+				 cv::BORDER_DEFAULT); // Gradient of the image in y
 
 	cv::Mat grad_xx, grad_xy, grad_yy;
 	cv::multiply(grad_x, grad_x, grad_xx);
 	cv::multiply(grad_x, grad_y, grad_xy);
 	cv::multiply(grad_y, grad_y, grad_yy);
 
-	//Now smooth the covariance data to perform a weighted summation of the data
+	// Now smooth the covariance data to perform a weighted summation of the data
 	int sze2 = 6 * round(blocksigma);
 
 	if (sze2 % 2 == 0) {

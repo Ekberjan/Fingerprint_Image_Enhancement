@@ -15,8 +15,8 @@
 
 using namespace cv;
 
-//Constructor
-//The relevant params are set here
+// Constructor
+// The relevant params are set here
 FPEnhancement::FPEnhancement() {
 	windowSize = 38;
 	thresh = 0.000000001;
@@ -29,19 +29,15 @@ FPEnhancement::FPEnhancement() {
 
 // Peform Gabor filter based image enhancement
 // using orientation field and frequency
-// Detained information can be found in Anil Jain's
+// detailed information can be found in Anil Jain's
 // paper
 Mat FPEnhancement::run(Mat &inputImage) {
-	//Check whether the input image size is at least of 300x300
-	// Mat paddedImage = sizeChecker.check(inputImage);
-
-	//Perform median blurring to smooth the image
+	// Perform median blurring to smooth the image
 	Mat blurredImage;
-	// medianBlur(paddedImage, blurredImage, 3);
 	medianBlur(inputImage, blurredImage, 3);
 
 	// Check whether the input image is grayscale.
-	//I f not, convert it to grayscale.
+	// If not, convert it to grayscale.
 	if (blurredImage.channels() != 1) {
 		cvtColor(blurredImage, blurredImage, CV_RGB2GRAY);
 	}
@@ -78,16 +74,16 @@ Mat FPEnhancement::postProcessingFilter(Mat &inputImage) {
 		inputImageGrey = inputImage.clone();
 	}
 
-	/// Blurring the image several times with a kernel 3x3
-	/// to have smooth surfaces
+	// Blurring the image several times with a kernel 3x3
+	// to have smooth surfaces
 	for (int j = 0; j < 30; j++) {
 		blur(inputImageGrey, inputImageGrey, Size(3, 3));
 	}
 
-	/// Canny detector to catch the edges
+	// Canny detector to catch the edges
 	Canny(inputImageGrey, filter, lowThreshold, lowThreshold * ratio, kernel_size);
 
-	/// Using Canny's output as a mask
+	// Use Canny's output as a mask
 	processedImage = Scalar::all(0);
 	inputImageGrey.copyTo(processedImage, filter);
 
@@ -97,10 +93,10 @@ Mat FPEnhancement::postProcessingFilter(Mat &inputImage) {
 										Size(2 * dilationSize + 1, 2 * dilationSize + 1),
 										Point(dilationSize, dilationSize));
 
-	/// Dilating the image to get the contour of the finger
+	// Dilate the image to get the contour of the finger
 	dilate(processedImage, processedImage, element);
 
-	// Filling the image from the middle to the edge.
+	// Fill the image from the middle to the edge.
 	floodFill(processedImage, cv::Point(filter.cols / 2, filter.rows / 2), Scalar(255));
 
 	return processedImage;
