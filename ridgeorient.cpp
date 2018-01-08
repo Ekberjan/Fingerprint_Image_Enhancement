@@ -5,7 +5,7 @@
 // Emails:
 //    ekberjanderman@gmail.com
 //    baptiste.amato@psycle.io
-//    julien.jerphanion@protonmail.com
+//    julien.jerphanion@psycle.io
 //
 // Last update : 12.2017
 

@@ -1,11 +1,16 @@
-//Main function for performing Gabor filtering
-//for enhancement using previously calculated
-//orientation image and frequency. The output
-//is final enhanced image.
-//Refer to the paper for detailed description.
-//Author: Ekberjan Derman
-//email: ekberjanderman@gmail.com
-//08.2015
+// Main function for performing Gabor filtering
+// for enhancement using previously calculated
+// orientation image and frequency. The output
+// is final enhanced image.
+// Refer to the paper for detailed description.
+//
+// Author: Ekberjan Derman
+// Contributor : Baptiste Amato, Julien Jerphanion
+// Emails:
+//    ekberjanderman@gmail.com
+//    baptiste.amato@psycle.io
+//    julien.jerphanion@psycle.io
+// Last update : 12.2017
 
 #include "ridgefilter.h"
 
