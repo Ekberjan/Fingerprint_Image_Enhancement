@@ -1,4 +1,4 @@
-//Header file for enhancement method
+// Header file for enhancement method
 
 #ifndef _FPENHANCEMENT_H
 #define _FPENHANCEMENT_H
@@ -9,11 +9,11 @@
 #include "ridgeorient.h"
 #include "ridgefilter.h"
 
-class FPEnhancement
-{
+class FPEnhancement {
 public:
 	FPEnhancement();
 	cv::Mat run(cv::Mat& inputImage);
+	cv::Mat postProcessingFilter(cv::Mat &inputImage);
 	cv::Mat getNormalizedImage();
 	cv::Mat getOrientationImage();
 
