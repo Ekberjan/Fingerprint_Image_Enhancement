@@ -16,7 +16,7 @@
 
 #include "fpenhancement.h"
 #include "common.h"
-
+#include "cxxopts.hpp"
 
 using namespace cv;
 
@@ -63,17 +63,45 @@ std::string getImageType(int number) {
 
 int main(int argc, char * argv[]) {
 
-	// CLI parameters
-	bool show_result = false;
-	bool downsize = true;
+	// CLI management
 
-	if (argc == 1) {
-		std::cerr << "Usage: " << argv[0] << " input_image" << std::endl;
+	cxxopts::Options options("fingerprint",
+	"Extract fingerprints from an image");
+
+	options.add_options()
+		("i,input_image", "Input image", cxxopts::value<std::string>())
+		("o,output_image", "Output image", cxxopts::value<std::string>()->default_value("out.png"))
+		("s,show", "Show the result of the algorithm", cxxopts::value<bool>()->default_value("false"))
+		("d,downsize", "Downsize the image", cxxopts::value<bool>()->default_value("true"))
+		("n,no_save", "Don't save the image", cxxopts::value<bool>()->default_value("false"))
+		("h,help", "Print usage")
+		// ("v,verbose", "Verbose output", cxxopts::value<bool>()->default_value("false"))
+		// ("d,debug", "Enable debugging") // a bool parameter
+		;
+
+	auto result = options.parse(argc, argv);
+
+	if (result.count("help")) {
+		exit(0);
+	}
+
+	if (result.count("input_image") + result.count("i") == 0) {
+		std::cout << "Bad usage: the input image has to be specified" << std::endl;
+		std::cout << options.help() << std::endl;
 		exit(1);
 	}
 
-	const std::string& output_image = "out.png"; 
-	cv::Mat input = cv::imread(argv[1]);
+	// CLI parameters
+	const std::string& input_image = result["input_image"].as<std::string>();
+	const std::string& output_image = result["output_image"].as<std::string>();
+
+	bool show_result = result["s"].as<bool>();
+	bool downsize = result["d"].as<bool>();
+	bool save_image = !(result["no_save"].as<bool>());
+
+	/// 
+	
+	cv::Mat input = cv::imread(input_image);
 
 	// Make sure the input image is valid
 	if (!input.data) {
@@ -101,19 +129,20 @@ int main(int argc, char * argv[]) {
 	std::cout << "Type of the filter : " << getImageType(filter.type()) << std::endl;
 
 	// Finally applying the filter to get the end result
-	Mat endRes;
+	Mat end_result;
 
-	endRes = Scalar::all(0);
-	enhancedImage.copyTo(endRes, filter);
+	end_result = Scalar::all(0);
+	enhancedImage.copyTo(end_result, filter);
 
 	if (show_result) {
-		imshow("End result", endRes);
+		imshow("End result", end_result);
 		std::cout << "Press any key to continue... " << std::endl;
 		cv::waitKey();
 	}
 
-	if (output_image != "")
-		imwrite(output_image, endRes);
+	if (save_image) {
+		imwrite(output_image, end_result);
+	}
 
 	return 0;
 }
