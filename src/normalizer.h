@@ -3,7 +3,7 @@
 #ifndef _NORMALIZER_H
 #define _NORMALIZER_H
 
-#include "commonfiles.h"
+#include "common.h"
 
 class Normalizer {
 public:

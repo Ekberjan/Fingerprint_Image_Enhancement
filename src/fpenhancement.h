@@ -3,7 +3,7 @@
 #ifndef _FPENHANCEMENT_H
 #define _FPENHANCEMENT_H
 
-#include "commonfiles.h"
+#include "common.h"
 #include "checksize.h"
 #include "normalizer.h"
 #include "ridgeorient.h"
