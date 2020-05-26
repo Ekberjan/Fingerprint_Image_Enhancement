@@ -56,14 +56,23 @@ std::string getImageType(int number) {
 	int channel = (number / 8) + 1;
 
 	std::stringstream type;
-	type<<"CV_"<<imgTypeString<<"C"<<channel;
+	type << "CV_" << imgTypeString << "C" << channel;
 
 	return type.str();
 }
 
 int main(int argc, char * argv[]) {
 
-	// Change this line to load your actual input file
+	// CLI parameters
+	bool show_result = false;
+	bool downsize = true;
+
+	if (argc == 1) {
+		std::cerr << "Usage: " << argv[0] << " input_image" << std::endl;
+		exit(1);
+	}
+
+	const std::string& output_image = "out.png"; 
 	cv::Mat input = cv::imread(argv[1]);
 
 	// Make sure the input image is valid
@@ -72,19 +81,23 @@ int main(int argc, char * argv[]) {
 		exit(1);
 	}
 
-	while (input.rows > 1000 || input.cols > 1000) {
-		const float fact = 0.6;
-		cv::resize(input, input, cv::Size(), fact, fact, cv::INTER_CUBIC);
+	if (downsize) {
+		while (input.rows > 1000 || input.cols > 1000) {
+			const float fact = 0.9;
+			std::cout << "Downsizing from (" << input.rows << ", " << input.cols <<
+			") to (" << (int) (input.rows * fact) << ", " << (int) (input.cols * fact) << ")" << std::endl;  
+			cv::resize(input, input, cv::Size(), fact, fact, cv::INTER_CUBIC);
+		}
 	}
 
 	// Run the enhancement algorithm
 	FPEnhancement fpEnhancement;
 	cv::Mat enhancedImage = fpEnhancement.run(input);
-	std::cout << getImageType(enhancedImage.type()) << std::endl;
 
 	// Doing the postProcessing
 	cv::Mat filter = fpEnhancement.postProcessingFilter(input);
 
+	std::cout << "Type of the image  : " << getImageType(enhancedImage.type()) << std::endl;
 	std::cout << "Type of the filter : " << getImageType(filter.type()) << std::endl;
 
 	// Finally applying the filter to get the end result
@@ -92,10 +105,15 @@ int main(int argc, char * argv[]) {
 
 	endRes = Scalar::all(0);
 	enhancedImage.copyTo(endRes, filter);
-	imshow("endRes", endRes  );
 
-	std::cout << "Press any key to continue... " << std::endl;
-	cv::waitKey();
+	if (show_result) {
+		imshow("End result", endRes);
+		std::cout << "Press any key to continue... " << std::endl;
+		cv::waitKey();
+	}
+
+	if (output_image != "")
+		imwrite(output_image, endRes);
 
 	return 0;
 }
