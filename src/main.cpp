@@ -10,7 +10,7 @@
 // Emails:
 //    ekberjanderman@gmail.com
 //    baptiste.amato@psycle.io
-//    julien.jerphanion@psycle.io
+//    git@jjerphan.xyz
 //
 // Last update : 12.2017
 
