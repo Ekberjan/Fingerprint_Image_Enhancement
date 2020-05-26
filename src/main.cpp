@@ -15,7 +15,7 @@
 // Last update : 12.2017
 
 #include "fpenhancement.h"
-#include "commonfiles.h"
+#include "common.h"
 
 
 using namespace cv;

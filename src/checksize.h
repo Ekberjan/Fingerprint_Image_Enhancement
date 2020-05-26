@@ -1,7 +1,7 @@
 #ifndef _CHECK_SIZE_H
 #define _CHEKC_SIZE_H
 
-#include "commonfiles.h"
+#include "common.h"
 
 class CheckSize {
 public:

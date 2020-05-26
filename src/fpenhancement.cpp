@@ -12,6 +12,8 @@
 
 #include "fpenhancement.h"
 
+// see : https://docs.opencv.org/3.4/df/d4e/group__imgproc__c.html
+#define CV_RGB2GRAY 7
 
 using namespace cv;
 

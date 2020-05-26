@@ -1,7 +1,7 @@
 #ifndef RIDGEORIENT_H
 #define RIDGEORIENT_H
 
-#include "commonfiles.h"
+#include "common.h"
 
 class RidgeOrient {
 public:

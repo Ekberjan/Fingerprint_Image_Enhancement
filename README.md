@@ -13,17 +13,17 @@ This program is using OpenCV 2.4.10 and program performs respectively :
 
 ## How to use
 
-CMake run this to create the Makefile.
-```bash
-cmake .
-```
+Install OpenCV on your machine. Then:
 
-Build the source
-```bash
+```bash 
+git clone git@github.com:jjerphan/Fingerprint_Image_Enhancement.git
+cd Fingerprint_Image_Enhancement
+mkdir -p build
+cmake ..
 make
 ```
 
-Execute on a picture :
+You can then execute the script on a picture :
 ```bash
 ./fingerPrint input.png
 ```
@@ -31,11 +31,11 @@ Execute on a picture :
 ## Example of result
 Here is an input image :
 
-![Input image : picture of an index finger](input.png)
+![Input image : picture of an index finger](doc/input.png)
 
 and the results obtained by running the command above:
 
-![Results : Fingerprint extracted](result.png)
+![Results : Fingerprint extracted](doc/result.png)
 
 You need to manually save the image shown in the OpenCV window at the end.
 

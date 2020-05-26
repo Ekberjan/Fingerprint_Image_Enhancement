@@ -3,7 +3,7 @@
 #ifndef RIDGEFILTER_H
 #define RIDGEFILTER_H
 
-#include "commonfiles.h"
+#include "common.h"
 
 class RidgeFilter {
 public:
