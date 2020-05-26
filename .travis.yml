@@ -87,7 +87,7 @@ matrix:
             - ubuntu-toolchain-r-test
           packages:
             - g++-7
-            - python3-opencv
+            - python-opencv
       env:
         - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
 
