@@ -23,7 +23,7 @@ using namespace cv;
 
 std::string getImageType(int number) {
 	// find type
-	int imgTypeInt = number%8;
+	int imgTypeInt = number % 8;
 	std::string imgTypeString;
 
 	switch (imgTypeInt) {
@@ -53,7 +53,7 @@ std::string getImageType(int number) {
 	}
 
 	// Find channel
-	int channel = (number/8) + 1;
+	int channel = (number / 8) + 1;
 
 	std::stringstream type;
 	type<<"CV_"<<imgTypeString<<"C"<<channel;
@@ -61,9 +61,10 @@ std::string getImageType(int number) {
 	return type.str();
 }
 
-int main(int argc, char * argv[])
-{
-	cv::Mat input = cv::imread(argv[1]); // change this line to load your actual input file
+int main(int argc, char * argv[]) {
+
+	// Change this line to load your actual input file
+	cv::Mat input = cv::imread(argv[1]);
 
 	// Make sure the input image is valid
 	if (!input.data) {
