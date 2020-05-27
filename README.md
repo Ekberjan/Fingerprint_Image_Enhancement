@@ -42,3 +42,8 @@ You need to manually save the image shown in the OpenCV window at the end.
 Best,
 
 Ekberjan, Baptiste Amato and Julien Jerphanion.
+
+
+## License
+
+This project is distributed under the BSD 3-clause license.
