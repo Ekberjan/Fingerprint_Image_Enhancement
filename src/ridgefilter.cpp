@@ -12,7 +12,7 @@ namespace cv {
 }
 
 /*
-	Performing Gabor filtering for enhancement using previously calculated
+	 Performing Gabor filtering for enhancement using previously calculated
    orientation image and frequency. The output is final enhanced image.
 
 	 Refer to the paper for detailed description.
