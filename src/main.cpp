@@ -18,11 +18,9 @@
 #include "common.h"
 #include "cxxopts.hpp"
 
-using namespace cv;
-
 
 std::string getImageType(int number) {
-	// find type
+	// Find type
 	int imgTypeInt = number % 8;
 	std::string imgTypeString;
 
@@ -73,8 +71,8 @@ int main(int argc, char * argv[]) {
 		("o,output_image", "Output image", cxxopts::value<std::string>()->default_value("out.png"))
 		("s,show", "Show the result of the algorithm", cxxopts::value<bool>()->default_value("false"))
 		("d,downsize", "Downsize the image", cxxopts::value<bool>()->default_value("false"))
+        ("b,border", "Add border to the image", cxxopts::value<bool>()->default_value("false"))
 		("n,no_save", "Don't save the image", cxxopts::value<bool>()->default_value("false"))
-
 		("min_rows", "Minimum number of rows", cxxopts::value<int>()->default_value("1000"))
 		("min_cols", "Minimum number of columns", cxxopts::value<int>()->default_value("1000"))
 
@@ -96,8 +94,8 @@ int main(int argc, char * argv[]) {
 	}
 
 	// CLI parameters
-	const std::string& input_image = result["input_image"].as<std::string>();
-	const std::string& output_image = result["output_image"].as<std::string>();
+	const auto& input_image = result["input_image"].as<std::string>();
+	const auto& output_image = result["output_image"].as<std::string>();
 
 	bool show_result = result["s"].as<bool>();
 	bool downsize = result["d"].as<bool>();
@@ -141,17 +139,17 @@ int main(int argc, char * argv[]) {
 	}
 
 	// Finally applying the filter to get the end result
-	Mat endResult(Scalar::all(0));
+	cv::Mat endResult(cv::Scalar::all(0));
 	enhancedImage.copyTo(endResult, filter);
 
 	if (show_result) {
-		imshow("End result", endResult);
+		cv::imshow("End result", endResult);
 		std::cout << "Press any key to continue... " << std::endl;
 		cv::waitKey();
 	}
 
 	if (save_image) {
-		imwrite(output_image, endResult);
+		cv::imwrite(output_image, endResult);
 	}
 
 	return 0;
