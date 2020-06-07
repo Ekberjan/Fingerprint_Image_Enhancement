@@ -1,16 +1,9 @@
-// Main function for performing Gabor filtering
-// for enhancement using previously calculated
-// orientation image and frequency. The output
-// is final enhanced image.
-// Refer to the paper for detailed description.
-//
 // Author: Ekberjan Derman
 // Contributor : Baptiste Amato, Julien Jerphanion
 // Emails:
 //    ekberjanderman@gmail.com
 //    baptiste.amato@psycle.io
 //    git@jjerphan.xyz
-// Last update : 12.2017
 
 #include "ridgefilter.h"
 
@@ -18,10 +11,17 @@ namespace cv {
 	using std::vector;
 }
 
-// Perform Gabor filtering to final enhancement
-// Further description can be found in the paper
-cv::Mat RidgeFilter::run(cv::Mat inputImage, cv::Mat orientationImage, cv::Mat frequency, double kx,
-						 double ky) {
+/*
+	Performing Gabor filtering for enhancement using previously calculated
+   orientation image and frequency. The output is final enhanced image.
+
+	 Refer to the paper for detailed description.
+*/ 
+cv::Mat RidgeFilter::run(cv::Mat inputImage,
+												 cv::Mat orientationImage,
+												 cv::Mat frequency,
+												 double kx,
+						 						 double ky) {
 	angleInc = 3; // fixed angle increment between filter orientations  in degrees.
 
 	inputImage.convertTo(inputImage, CV_32FC1);
@@ -51,7 +51,7 @@ cv::Mat RidgeFilter::run(cv::Mat inputImage, cv::Mat orientationImage, cv::Mat f
 	meshX.convertTo(meshX, CV_32FC1);
 	meshY.convertTo(meshY, CV_32FC1);
 
-	double pi_by_unfreq_by_2 = 2 * pi * unfreq;
+	double pi_by_unfreq_by_2 = 2 * M_PI * unfreq;
 
 	for (int i = 0; i < meshX.rows; i++) {
 		const float *meshX_i = meshX.ptr<float>(i);
@@ -99,7 +99,7 @@ cv::Mat RidgeFilter::run(cv::Mat inputImage, cv::Mat orientationImage, cv::Mat f
 			}
 
 			int orientpix = static_cast<int>(std::round(
-					orientationImage_y[x] / pi * 180 / angleInc));
+					orientationImage_y[x] / M_PI * 180 / angleInc));
 
 			if (orientpix < 0) {
 				orientpix += maxorientindex;

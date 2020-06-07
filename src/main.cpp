@@ -72,11 +72,15 @@ int main(int argc, char * argv[]) {
 		("i,input_image", "Input image", cxxopts::value<std::string>())
 		("o,output_image", "Output image", cxxopts::value<std::string>()->default_value("out.png"))
 		("s,show", "Show the result of the algorithm", cxxopts::value<bool>()->default_value("false"))
-		("d,downsize", "Downsize the image", cxxopts::value<bool>()->default_value("true"))
+		("d,downsize", "Downsize the image", cxxopts::value<bool>()->default_value("false"))
 		("n,no_save", "Don't save the image", cxxopts::value<bool>()->default_value("false"))
+
+		("min_rows", "Minimum number of rows", cxxopts::value<int>()->default_value("1000"))
+		("min_cols", "Minimum number of columns", cxxopts::value<int>()->default_value("1000"))
+
+
 		("h,help", "Print usage")
-		// ("v,verbose", "Verbose output", cxxopts::value<bool>()->default_value("false"))
-		// ("d,debug", "Enable debugging") // a bool parameter
+		("v,verbose", "Verbose output", cxxopts::value<bool>()->default_value("false"))
 		;
 
 	auto result = options.parse(argc, argv);
@@ -86,8 +90,8 @@ int main(int argc, char * argv[]) {
 	}
 
 	if (result.count("input_image") + result.count("i") == 0) {
-		std::cout << "Bad usage: the input image has to be specified" << std::endl;
-		std::cout << options.help() << std::endl;
+		std::cerr << "Bad usage: the input image has to be specified" << std::endl;
+		std::cerr << options.help() << std::endl;
 		exit(1);
 	}
 
@@ -97,7 +101,11 @@ int main(int argc, char * argv[]) {
 
 	bool show_result = result["s"].as<bool>();
 	bool downsize = result["d"].as<bool>();
-	bool save_image = !(result["no_save"].as<bool>());
+	bool save_image = !(result["n"].as<bool>());
+	bool verbose = result["v"].as<bool>();
+
+	int min_rows = result["min_rows"].as<int>();
+	int min_cols = result["min_cols"].as<int>();
 
 	/// 
 	
@@ -110,38 +118,40 @@ int main(int argc, char * argv[]) {
 	}
 
 	if (downsize) {
-		while (input.rows > 1000 || input.cols > 1000) {
+		while (input.rows > min_rows || input.cols > min_cols) {
 			const float fact = 0.9;
-			std::cout << "Downsizing from (" << input.rows << ", " << input.cols <<
-			") to (" << (int) (input.rows * fact) << ", " << (int) (input.cols * fact) << ")" << std::endl;  
+			if(verbose) {
+				std::cout << "Downsizing from (" << input.rows << ", " << input.cols <<
+				") to (" << (int) (input.rows * fact) << ", " << (int) (input.cols * fact) << ")" << std::endl;
+			}  
 			cv::resize(input, input, cv::Size(), fact, fact, cv::INTER_CUBIC);
 		}
 	}
 
 	// Run the enhancement algorithm
 	FPEnhancement fpEnhancement;
-	cv::Mat enhancedImage = fpEnhancement.run(input);
+	cv::Mat enhancedImage = fpEnhancement.extractFingerPrints(input);
 
 	// Doing the postProcessing
 	cv::Mat filter = fpEnhancement.postProcessingFilter(input);
 
-	std::cout << "Type of the image  : " << getImageType(enhancedImage.type()) << std::endl;
-	std::cout << "Type of the filter : " << getImageType(filter.type()) << std::endl;
+	if(verbose) {
+		std::cout << "Type of the image  : " << getImageType(enhancedImage.type()) << std::endl;
+		std::cout << "Type of the filter : " << getImageType(filter.type()) << std::endl;
+	}
 
 	// Finally applying the filter to get the end result
-	Mat end_result;
-
-	end_result = Scalar::all(0);
-	enhancedImage.copyTo(end_result, filter);
+	Mat endResult(Scalar::all(0));
+	enhancedImage.copyTo(endResult, filter);
 
 	if (show_result) {
-		imshow("End result", end_result);
+		imshow("End result", endResult);
 		std::cout << "Press any key to continue... " << std::endl;
 		cv::waitKey();
 	}
 
 	if (save_image) {
-		imwrite(output_image, end_result);
+		imwrite(output_image, endResult);
 	}
 
 	return 0;

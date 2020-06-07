@@ -6,18 +6,15 @@
 //    ekberjanderman@gmail.com
 //    baptiste.amato@psycle.io
 //    git@jjerphan.xyz
-//
-// Last update : 12.2017
 
 #include "ridgeorient.h"
 
-RidgeOrient::RidgeOrient() {
-	// params for Sobel opeation
-	scale = 1;
-	delta = 0;
-	ddepth = CV_32FC1;
-	pi = M_PI; // 3.14159265;
-}
+// params for Sobel opeation
+RidgeOrient::RidgeOrient():
+	scale(1),
+	delta(0),
+	ddepth(CV_32FC1)
+{}
 
 cv::Mat
 RidgeOrient::run(cv::Mat im, double gradientsigma, double blocksigma, double orientsmoothsigma) {
@@ -107,14 +104,14 @@ RidgeOrient::run(cv::Mat im, double gradientsigma, double blocksigma, double ori
 		const float *cos2theta_i = cos2theta.ptr<float>(i);
 		float *orientim_i = orientim.ptr<float>(i);
 		for (int j = 0; j < sin2theta.cols; j++) {
-			orientim_i[j] = (pi + std::atan2(sin2theta_i[j], cos2theta_i[j])) / 2;
+			orientim_i[j] = (M_PI + std::atan2(sin2theta_i[j], cos2theta_i[j])) / 2;
 		}
 	}
 
 	return orientim;
 }
 
-//Calculate gradient in x- and y-direction of the image
+// Calculate gradient in x- and y-direction of the image
 void RidgeOrient::gradient(cv::Mat image, cv::Mat xGradient, cv::Mat yGradient) {
 	xGradient = cv::Mat::zeros(image.rows, image.cols, ddepth);
 	yGradient = cv::Mat::zeros(image.rows, image.cols, ddepth);
