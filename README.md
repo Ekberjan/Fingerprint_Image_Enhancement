@@ -1,5 +1,7 @@
 # Fingerprint Image Enhancement Using OpenCV
 
+[![Build Status](https://travis-ci.org/jjerphan/Fingerprint_Image_Enhancement.svg?branch=master)](https://travis-ci.org/jjerphan/Fingerprint_Image_Enhancement)
+
 A C++ implementation of the enhancement method based on Anil Jain's paper:
 
 *Fingerprint Image Enhancement: Algorithm and Performance Evaluation*, *IEEE Transactions on Pattern Analysis and Machine Intelligence*, vol. 20, No. 8, August, 1998. This paper is readable [here](https://www.google.fr/url?sa=t&rct=j&q=&esrc=s&source=web&cd=3&cad=rja&uact=8&ved=0ahUKEwjZgPWX5bTYAhWHblAKHTteCPUQFghFMAI&url=http%3A%2F%2Fwww.math.tau.ac.il%2F~turkel%2Fimagepapers%2Ffingerprint.pdf&usg=AOvVaw35b-7mvIizEjNnV54_rrRq).
@@ -25,7 +27,7 @@ make
 
 You can then execute the script on a picture :
 ```bash
-./fingerPrint input.png
+./fingerPrint -i input.png
 ```
 
 ## Example of result
