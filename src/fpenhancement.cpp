@@ -18,9 +18,9 @@ namespace cv {
 
 /*
  * Perform Gabor filter based image enhancement using orientation field and
- * frequency detailed information can be found in Anil Jain's paper
+ * frequency.
  */
-cv::Mat FPEnhancement::extractFingerPrints(cv::Mat &inputImage) {
+cv::Mat FPEnhancement::extractFingerPrints(const cv::Mat &inputImage) {
     // Perform median blurring to smooth the image
     cv::Mat blurredImage;
     medianBlur(inputImage, blurredImage, 3);
@@ -55,7 +55,8 @@ cv::Mat FPEnhancement::extractFingerPrints(cv::Mat &inputImage) {
     cv::Mat enhancedImage =
             this->filter_ridge(normalizedImage, orientationImage, freq);
 
-    std::cout << "Done" << std::endl;
+    if (verbose)
+        std::cout << "Done with processing pipeling" << std::endl;
 
     return enhancedImage;
 }
@@ -63,18 +64,19 @@ cv::Mat FPEnhancement::extractFingerPrints(cv::Mat &inputImage) {
 /*
  * Normalization function of Anil Jain's algorithm.
  */
-cv::Mat FPEnhancement::normalize_image(cv::Mat &im, double reqmean,
-                                       double reqvar) {
+cv::Mat FPEnhancement::normalize_image(const cv::Mat &im, double reqMean,
+                                       double reqVar) {
 
-    im.convertTo(im, CV_32FC1);
+    cv::Mat convertedIm;
+    im.convertTo(convertedIm, CV_32FC1);
 
-    cv::Scalar mean = cv::mean(im);
-    cv::Mat normalizedImage = im - mean[0];
+    cv::Scalar mean = cv::mean(convertedIm);
+    cv::Mat normalizedImage = convertedIm - mean[0];
 
     cv::Scalar normMean = cv::mean(normalizedImage);
     float stdNorm = deviation(normalizedImage, normMean[0]);
     normalizedImage = normalizedImage / stdNorm;
-    normalizedImage = reqmean + normalizedImage * cv::sqrt(reqvar);
+    normalizedImage = reqMean + normalizedImage * cv::sqrt(reqVar);
 
     return normalizedImage;
 }
@@ -82,14 +84,14 @@ cv::Mat FPEnhancement::normalize_image(cv::Mat &im, double reqmean,
 /*
  * Calculate gradient in x- and y-direction of the image
  */
-void FPEnhancement::gradient(cv::Mat &image, cv::Mat &xGradient,
+void FPEnhancement::gradient(const cv::Mat &image, cv::Mat &xGradient,
                              cv::Mat &yGradient) const {
     xGradient = cv::Mat::zeros(image.rows, image.cols, ddepth);
     yGradient = cv::Mat::zeros(image.rows, image.cols, ddepth);
 
     // Pointer access more effective than Mat.at<T>()
     for (int i = 1; i < image.rows - 1; i++) {
-        const float *image_i = image.ptr<float>(i);
+        const auto *image_i = image.ptr<float>(i);
         auto *xGradient_i = xGradient.ptr<float>(i);
         auto *yGradient_i = yGradient.ptr<float>(i);
         for (int j = 1; j < image.cols - 1; j++) {
@@ -131,7 +133,7 @@ void FPEnhancement::gradient(cv::Mat &image, cv::Mat &xGradient,
 /*
  * Estimate orientation field of fingerprint ridges.
  */
-cv::Mat FPEnhancement::orient_ridge(cv::Mat &im) {
+cv::Mat FPEnhancement::orient_ridge(const cv::Mat &im) {
 
     cv::Mat gradX, gradY;
     cv::Mat sin2theta;
@@ -243,7 +245,7 @@ cv::Mat FPEnhancement::orient_ridge(cv::Mat &im) {
 /*
  * Compute the standard deviation of the image.
  */
-float FPEnhancement::deviation(cv::Mat &im, float average) {
+float FPEnhancement::deviation(const cv::Mat &im, float average) {
     float sdev = 0.0;
 
     for (int i = 0; i < im.rows; i++) {
@@ -305,11 +307,13 @@ cv::Mat FPEnhancement::postProcessingFilter(const cv::Mat &inputImage) const {
     return processedImage;
 }
 
-// This is equivalent to Matlab's 'meshgrid' function
-void FPEnhancement::meshgrid(int sze, cv::Mat &meshX, cv::Mat &meshY) {
+/*
+ * This is equivalent to Matlab's 'meshgrid' function
+*/
+void FPEnhancement::meshgrid(int kernelSize, cv::Mat &meshX, cv::Mat &meshY) {
     std::vector<int> t;
 
-    for (int i = -sze; i < sze; i++) {
+    for (int i = -kernelSize; i < kernelSize; i++) {
         t.push_back(i);
     }
 
@@ -327,9 +331,9 @@ void FPEnhancement::meshgrid(int sze, cv::Mat &meshX, cv::Mat &meshY) {
  *
  * Refer to the paper for detailed description.
 */
-cv::Mat FPEnhancement::filter_ridge(cv::Mat &inputImage,
-                                    cv::Mat &orientationImage,
-                                    cv::Mat &frequency) const {
+cv::Mat FPEnhancement::filter_ridge(const cv::Mat &inputImage,
+                                    const cv::Mat &orientationImage,
+                                    const cv::Mat &frequency) const {
 
     // Fixed angle increment between filter orientations in degrees
     int angleInc = 3;
@@ -405,7 +409,7 @@ cv::Mat FPEnhancement::filter_ridge(cv::Mat &inputImage,
     int cols_maxsze = cols - maxsze;
 
     for (int y = 0; y < rows; y++) {
-        const float *orientationImage_y = orientationImage.ptr<float>(y);
+        const auto *orientationImage_y = orientationImage.ptr<float>(y);
         auto *orientindex_y = orientindex.ptr<float>(y);
         for (int x = 0; x < cols; x++) {
             if (x > maxsze && x < cols_maxsze && y > maxsze && y < rows_maxsze) {

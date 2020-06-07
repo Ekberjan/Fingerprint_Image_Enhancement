@@ -37,7 +37,7 @@ public:
                                           dilationType(dilationType),
                                           verbose(verbose){};
 
-    cv::Mat extractFingerPrints(cv::Mat &inputImage);
+    cv::Mat extractFingerPrints(const cv::Mat &inputImage);
 
     cv::Mat postProcessingFilter(const cv::Mat &inputImage) const;
 
@@ -45,18 +45,18 @@ private:
     const bool verbose;
 
     // Image normalization
-    static cv::Mat normalize_image(cv::Mat &im, double reqmean, double reqvar);
-    static float deviation(cv::Mat &im, float ave);
+    static cv::Mat normalize_image(const cv::Mat &im, double reqMean, double reqVar);
+    static float deviation(const cv::Mat &im, float ave);
 
     // For calculating orientation field
     const int ddepth;
-    void gradient(cv::Mat &image, cv::Mat &xGradient, cv::Mat &yGradient) const;
-    cv::Mat orient_ridge(cv::Mat &im);
+    void gradient(const cv::Mat &image, cv::Mat &xGradient, cv::Mat &yGradient) const;
+    cv::Mat orient_ridge(const cv::Mat &im);
 
     // For filtering ridges
     const bool addBorder;
-    static void meshgrid(int sze, cv::Mat &meshX, cv::Mat &meshY);
-    cv::Mat filter_ridge(cv::Mat &inputImage, cv::Mat &orientationImage, cv::Mat &frequency) const;
+    static void meshgrid(int kernelSize, cv::Mat &meshX, cv::Mat &meshY);
+    cv::Mat filter_ridge(const cv::Mat &inputImage, const cv::Mat &orientationImage, const cv::Mat &frequency) const;
 
     const double kx, ky;
     const double blockSigma;

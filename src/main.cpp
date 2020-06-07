@@ -133,7 +133,7 @@ int main(int argc, char *argv[]) {
     }
 
     // Run the enhancement algorithm
-    FPEnhancement fpEnhancement;
+    FPEnhancement fpEnhancement(verbose=verbose);
     cv::Mat enhancedImage = fpEnhancement.extractFingerPrints(input);
 
     // Finally applying the filter to get the end result
