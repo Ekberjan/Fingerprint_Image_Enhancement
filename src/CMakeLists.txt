@@ -3,7 +3,7 @@ project(fingerprint-src)
 
 find_package( OpenCV REQUIRED )
 
-set(SOURCE_FILES  fpenhancement.cpp  main.cpp  normalizer.cpp  ridgefilter.cpp  ridgeorient.cpp)
+set(SOURCE_FILES  fpenhancement.cpp  main.cpp )
 
 add_executable( fingerPrint ${SOURCE_FILES})
 target_link_libraries( fingerPrint ${OpenCV_LIBS} )
