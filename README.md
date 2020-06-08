@@ -27,7 +27,7 @@ make
 
 You can then execute the script on a picture :
 ```bash
-./fingerPrint -i input.png
+./fingerprint -i input.png
 ```
 
 ## Example of result
