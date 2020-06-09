@@ -53,4 +53,6 @@ script:
   - mkdir -p build
   - cd build
   - cmake ..
-  - make
+  - make install
+  - cd ..
+  - ./bin/fingerprint_tests

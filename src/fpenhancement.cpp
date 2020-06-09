@@ -21,6 +21,11 @@ namespace cv {
  * frequency.
  */
 cv::Mat FPEnhancement::extractFingerPrints(const cv::Mat &inputImage) {
+
+    if(inputImage.empty()){
+        throw std::invalid_argument("The input matrix should not be empty.");
+    }
+
     // Perform median blurring to smooth the image
     cv::Mat blurredImage;
     medianBlur(inputImage, blurredImage, 3);
@@ -270,6 +275,11 @@ float FPEnhancement::deviation(const cv::Mat &im, float average) {
  * to the fingerprint.
  */
 cv::Mat FPEnhancement::postProcessingFilter(const cv::Mat &inputImage) const {
+
+    if(inputImage.empty()){
+        throw std::invalid_argument("The input matrix should not be empty.");
+    }
+
     cv::Mat inputImageGrey;
     cv::Mat filter;
 
