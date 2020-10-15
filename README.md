@@ -13,21 +13,42 @@ This program is using OpenCV 2.4.10 and program performs respectively :
  - a Gabor filter based image enhancement
  - a cropping to only get the fingerprints
 
-## How to use
+## Installation
 
-Install OpenCV on your machine. Then:
+Install OpenCV on your machine. Then clone the repo:
 
-```bash 
+```bash
 git clone git@github.com:jjerphan/Fingerprint_Image_Enhancement.git
 cd Fingerprint_Image_Enhancement
+```
+
+### CLI
+
+You can build the CLI tool as follows.
+```bash
 mkdir -p build
+cd build
 cmake ..
 make
+cd ..
 ```
 
 You can then execute the script on a picture :
 ```bash
-./fingerPrint -i input.png
+.bin/fingerPrint -i input.png
+```
+
+To have an overview of options, just use:
+```
+./bin/fingerPrint -h
+```
+
+
+### API
+
+Install the package using:
+```bash
+python setup.py install
 ```
 
 ## Example of result
