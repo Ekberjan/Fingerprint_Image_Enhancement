@@ -14,7 +14,8 @@ add_subdirectory(src)
 # Python Binders
 find_package( OpenCV REQUIRED )
 add_subdirectory(pybind11)
-set(BINDERS_FILES  src/fpenhancement.cpp  src/binders.cpp )
+set(BINDERS_FILES  src/fpenhancement.cpp  src/binders.cpp
+src/ndarray_converter.cpp)
 pybind11_add_module(fingerprint ${BINDERS_FILES})
 target_link_libraries( fingerprint PRIVATE ${OpenCV_LIBS} )
 
