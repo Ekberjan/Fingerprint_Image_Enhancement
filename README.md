@@ -62,11 +62,9 @@ and the results obtained by running the command above:
 
 You need to manually save the image shown in the OpenCV window at the end.
 
-Best,
-
-Ekberjan, Baptiste Amato and Julien Jerphanion.
-
-
 ## License
 
-This project is distributed under the BSD 3-clause license.
+This project is distributed under the Apache License 2.0.
+
+It features code from [`edmBernard/pybind11_opencv_numpy`](https://github.com/edmBernard/pybind11_opencv_numpy)
+published under the same license.
