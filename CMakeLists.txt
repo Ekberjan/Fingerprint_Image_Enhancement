@@ -11,10 +11,12 @@ set(FINGERPRINT_INSTALL_INCLUDE_DIR ${PROJECT_SOURCE_DIR}/include)
 set(FINGERPRINT_INSTALL_BIN_DIR ${PROJECT_SOURCE_DIR}/bin)
 set(FINGERPRINT_INSTALL_LIB_DIR ${PROJECT_SOURCE_DIR}/lib)
 
-set(FINGERPRINT_HEADERS_DIR ${PROJECT_SOURCE_DIR}/src/)
-
-include_directories(${FINGERPRINT_INSTALL_INCLUDE_DIR})
-include_directories(${FINGERPRINT_HEADERS_DIR})
-
 add_subdirectory(src)
-add_subdirectory(test)
+
+# Python Binders
+find_package( OpenCV REQUIRED )
+add_subdirectory(pybind11)
+set(BINDERS_FILES  src/fpenhancement.cpp  src/binders.cpp
+src/ndarray_converter.cpp)
+pybind11_add_module(fingerprint ${BINDERS_FILES})
+target_link_libraries( fingerprint PRIVATE ${OpenCV_LIBS} )
